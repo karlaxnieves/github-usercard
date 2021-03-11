@@ -28,27 +28,95 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
 
-/*
-  STEP 3: Create a function that accepts a single object as its only argument.
-    Using DOM methods and properties, create and return the following markup:
+// STEP 3: Create a function that accepts a single object as its only argument.
+//   Using DOM methods and properties, create and return the following markup:
 
-    <div class="card">
-      <img src={image url of user} />
+/* <div class="card">
+  <img src={image url of user} />
       <div class="card-info">
-        <h3 class="name">{users name}</h3>
-        <p class="username">{users user name}</p>
-        <p>Location: {users location}</p>
-        <p>Profile:
+    <h3 class="name">{users name}</h3>
+    <p class="username">{users user name}</p>
+    <p>Location: {users location}</p>
+    <p>Profile:
           <a href={address to users github page}>{address to users github page}</a>
         </p>
-        <p>Followers: {users followers count}</p>
-        <p>Following: {users following count}</p>
-        <p>Bio: {users bio}</p>
-      </div>
-    </div>
-*/
+  <p>Followers: {users followers count}</p>
+  <p>Following: {users following count}</p>
+  <p>Bio: {users bio}</p>
+</div>
+    </div >
+    */
+
+
+
+const entryPoint = document.querySelector(".cards");
+
+function cardMaker({ obj }) {
+  const card = document.createElement('div');
+  const userImage = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const href = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  card.appendChild(userImage);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(href);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+  userImage.textContent = 'avatar_url';
+  name.textContent = 'name';
+  userName.textContent = 'login';
+  location.textContent = 'location';
+  href.textContent = 'html_url';
+  followers.textContent = 'followers';
+  following.textContent = 'following';
+  bio.textContent = 'bio';
+
+  card.addEventListener('click', () => {
+    card.classList.toggle('selected');
+  });
+
+  return card;
+}
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+import axios from "axios";
+
+axios
+  .get(`https://api.github.com/users/karlaxnieves`)
+  .then((res) => {
+    cardMaker(response.data)
+    entryPoint.appendChild(card);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+
+followersArray.forEach(person => {
+  axios.get(`https://api.github.com/users/${person}`)
+    .then((res) => {
+      cardMaker(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
 
 /*
   List of LS Instructors Github username's:
