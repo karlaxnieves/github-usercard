@@ -46,8 +46,7 @@
   <p>Bio: {users bio}</p>
 </div>
     </div >
-    */
-
+*/
 
 
 const entryPoint = document.querySelector(".cards");
@@ -65,7 +64,14 @@ function cardMaker({ obj }) {
   const following = document.createElement('p');
   const bio = document.createElement('p');
 
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('username');
+
+  entryPoint.appendChild(card);
   card.appendChild(userImage);
+  card.appendChild(cardInfo);
   cardInfo.appendChild(name);
   cardInfo.appendChild(userName);
   cardInfo.appendChild(location);
@@ -75,47 +81,47 @@ function cardMaker({ obj }) {
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
 
-  userImage.textContent = 'avatar_url';
-  name.textContent = 'name';
-  userName.textContent = 'login';
-  location.textContent = 'location';
+  userImage.setAttribute = ('src', avatar_url);
+  name.textContent = obj.name;
+  userName.textContent = obj.login;
+  location.textContent = `Location: ${obj.location}`;
+  profile.textContent = "Profile: ";
+  href.setAttribute = (`href`, html_url);
   href.textContent = 'html_url';
-  followers.textContent = 'followers';
-  following.textContent = 'following';
-  bio.textContent = 'bio';
+  followers.textContent = `Followers: ${obj.followers}`;
+  following.textContent = `Following: ${obj.following}`;
+  bio.textContent = `Bio: ${obj.bio}`;
 
-  card.addEventListener('click', () => {
-    card.classList.toggle('selected');
-  });
 
   return card;
-}
+};
 
-const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
 
 import axios from "axios";
 
 axios
   .get(`https://api.github.com/users/karlaxnieves`)
   .then((res) => {
-    cardMaker(response.data)
-    entryPoint.appendChild(card);
+    const card = cardMaker(res.data);
+    cards.appendChild(card);
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
 
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
-followersArray.forEach(person => {
-  axios.get(`https://api.github.com/users/${person}`)
+followersArray.forEach(function (username) {
+  axios.get(`https://api.github.com/users/${username}`)
     .then((res) => {
-      cardMaker(res.data)
+      const entryPoint = document.querySelector(".cards")
+      const card = cardMaker(res.data)
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
     })
-}
-
+})
 
 
 /*
