@@ -51,7 +51,7 @@
 
 const entryPoint = document.querySelector(".cards");
 
-function cardMaker({ obj }) {
+function cardMaker(obj) {
   const card = document.createElement('div');
   const userImage = document.createElement('img');
   const cardInfo = document.createElement('div');
@@ -69,6 +69,9 @@ function cardMaker({ obj }) {
   name.classList.add('name');
   userName.classList.add('username');
 
+  console.log(userImage);
+  console.log(obj.avatar_url);
+
   entryPoint.appendChild(card);
   card.appendChild(userImage);
   card.appendChild(cardInfo);
@@ -81,17 +84,17 @@ function cardMaker({ obj }) {
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
 
-  userImage.setAttribute = ('src', avatar_url);
+  // userImage.setAttribute = ('src', obj.avatar_url);
+  userImage.src = obj.avatar_url;
   name.textContent = obj.name;
   userName.textContent = obj.login;
   location.textContent = `Location: ${obj.location}`;
   profile.textContent = "Profile: ";
-  href.setAttribute = (`href`, html_url);
+  href.href = obj.html_url;
   href.textContent = 'html_url';
   followers.textContent = `Followers: ${obj.followers}`;
   following.textContent = `Following: ${obj.following}`;
   bio.textContent = `Bio: ${obj.bio}`;
-
 
   return card;
 };
@@ -104,7 +107,8 @@ axios
   .get(`https://api.github.com/users/karlaxnieves`)
   .then((res) => {
     const card = cardMaker(res.data);
-    cards.appendChild(card);
+    entryPoint.appendChild(card);
+    console.log(card);
   })
   .catch((err) => {
     console.log(err);
@@ -115,13 +119,13 @@ const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigkne
 followersArray.forEach(function (username) {
   axios.get(`https://api.github.com/users/${username}`)
     .then((res) => {
-      const entryPoint = document.querySelector(".cards")
       const card = cardMaker(res.data)
+      entryPoint.appendChild(card);
     })
     .catch((err) => {
       console.log(err);
     })
-})
+});
 
 
 /*
