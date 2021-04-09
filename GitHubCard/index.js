@@ -58,6 +58,7 @@
     bigknell
 */
 
+
 const entryPoint = document.querySelector(".cards");
 
 function cardMaker(obj) {
