@@ -105,3 +105,29 @@ function cardMaker(obj) {
 
   return card;
 };
+
+import axios from "axios";
+
+axios
+  .get(`https://api.github.com/users/karlaxnieves`)
+  .then((res) => {
+    const card = cardMaker(res.data);
+    entryPoint.appendChild(card);
+    console.log(card);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+followersArray.forEach(function (username) {
+  axios.get(`https://api.github.com/users/${username}`)
+    .then((res) => {
+      const card = cardMaker(res.data)
+      entryPoint.appendChild(card);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+});
